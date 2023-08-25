@@ -9,7 +9,20 @@ export const getValue = props => {
     case 'bad':
       return 'red';
     default:
-      console.log('Error');
+      return '#6377e9';
+  }
+};
+
+export const getColorFromValue = props => {
+  switch (props.value) {
+    case 'good':
+      return 'white';
+    case 'neutral':
+      return 'black';
+    case 'bad':
+      return 'white';
+    default:
+      return 'black';
   }
 };
 
@@ -26,18 +39,7 @@ export const FeedbackOptionsButton = styled.button`
   justify-content: center;
   align-items: center;
   background-color: ${getValue};
-  color: ${props => {
-    switch (props.value) {
-      case 'good':
-        return 'white';
-      case 'neutral':
-        return 'black';
-      case 'bad':
-        return 'white';
-      default:
-        return 'black';
-    }
-  }};
+  color: ${getColorFromValue};
   border: none;
   padding: 5px 15px;
   border-radius: 15px;

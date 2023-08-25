@@ -1,37 +1,35 @@
+import { nanoid } from 'nanoid';
+
 import {
   FeedbackStatisticsWrapper,
   FeedbackStatisticsItem,
 } from './Statistics.styled';
 
-export const Statistics = ({
-  good,
-  neutral,
-  bad,
-  total,
-  positivePercentage,
-}) => {
-  return (
-    <>
-      <FeedbackStatisticsWrapper>
-        <FeedbackStatisticsItem value="good">
-          <p>Good: {good}</p>
-        </FeedbackStatisticsItem>
-        <FeedbackStatisticsItem value="neutral">
-          <p>Neutral: {neutral}</p>
-        </FeedbackStatisticsItem>
-        <FeedbackStatisticsItem value="bad">
-          <p>Bad: {bad}</p>
-        </FeedbackStatisticsItem>
-        <FeedbackStatisticsItem>
-          <p>Total: {total}</p>
-        </FeedbackStatisticsItem>
-        <FeedbackStatisticsItem>
+export const Statistics = props => {
+  const good = props.good;
+  const optionsArr = Object.entries(props).map(el => {
+    const keyId = nanoid();
+    if (el[0] !== 'positivePercentage') {
+      return (
+        <FeedbackStatisticsItem key={keyId} value={el[0]}>
           <p>
-            Positive feedback:{' '}
-            {!good ? 0 : ((good / positivePercentage) * 100).toFixed(0)}%
+            {el[0][0].toUpperCase() + el[0].slice(1, el[0].length)}: {el[1]}
           </p>
         </FeedbackStatisticsItem>
-      </FeedbackStatisticsWrapper>
+      );
+    }
+    return (
+      <FeedbackStatisticsItem key={keyId} value={el[0]}>
+        <p>
+          Positive feedback: {!good ? 0 : ((good / el[1]) * 100).toFixed(0)}%
+        </p>
+      </FeedbackStatisticsItem>
+    );
+  });
+
+  return (
+    <>
+      <FeedbackStatisticsWrapper>{optionsArr}</FeedbackStatisticsWrapper>
     </>
   );
 };

@@ -1,41 +1,28 @@
+import { nanoid } from 'nanoid';
+
 import {
   FeedbackOptionsWrapper,
   FeedbackOptionsButton,
 } from './FeedbackOptions.styled';
 
 export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
-  const optionsKeys = Object.keys(options);
+  const optionsKeys = Object.keys(options).map(el => {
+    const keyId = nanoid();
+    return (
+      <li key={keyId}>
+        <FeedbackOptionsButton
+          type="button"
+          value={el}
+          onClick={onLeaveFeedback}
+        >
+          {el[0].toUpperCase() + el.slice(1, el.length)}
+        </FeedbackOptionsButton>
+      </li>
+    );
+  });
   return (
     <>
-      <FeedbackOptionsWrapper>
-        <li>
-          <FeedbackOptionsButton
-            type="button"
-            value={optionsKeys[0]}
-            onClick={onLeaveFeedback}
-          >
-            Good
-          </FeedbackOptionsButton>
-        </li>
-        <li>
-          <FeedbackOptionsButton
-            type="button"
-            value={optionsKeys[1]}
-            onClick={onLeaveFeedback}
-          >
-            Neutral
-          </FeedbackOptionsButton>
-        </li>
-        <li>
-          <FeedbackOptionsButton
-            type="button"
-            value={optionsKeys[2]}
-            onClick={onLeaveFeedback}
-          >
-            Bad
-          </FeedbackOptionsButton>
-        </li>
-      </FeedbackOptionsWrapper>
+      <FeedbackOptionsWrapper>{optionsKeys}</FeedbackOptionsWrapper>
     </>
   );
 };
